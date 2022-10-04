@@ -1,0 +1,16 @@
+<launch>
+
+  <arg name="bag_file" default="../Downloads/glennan_5_basic.bag" />
+
+  <include file="$(find lab2_robot)/launch/launch.launch">
+    <arg name="file" value="$(find lab3_package)/urdf/lab3_robot.xacro" />
+    <arg name="use_gui" value="false" />
+    <arg name="use_xacro" value="true" />
+    <arg name="use_robot_state_publisher" value="true" />
+    <arg name="config_file" value="$(find lab3_package)/config/config.rviz" />
+  </include>
+  
+  <node pkg="map_server" type="map_server" name="map_server" args="$(find maps_glennan)/maps/glennan5_map.yaml" />
+  
+  <node pkg="rosbag" type="play" name="player" output="screen" args="--clock $(arg bag_file) /tf_trajectory:=/tf" />
+</launch>
